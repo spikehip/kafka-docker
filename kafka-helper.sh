@@ -14,3 +14,5 @@ alias kafka-brokers-restart='kafka-brokers-stop && kafka-brokers-start'
 alias kafka-control-center-start='$SCRIPT_DIR/bin/docker-check-network.sh && ( $SCRIPT_DIR/bin/docker-check-process.sh schema-registry start && $SCRIPT_DIR/bin/docker-check-process.sh kafka-rest start && $SCRIPT_DIR/bin/docker-check-process.sh control-center start ) || $SCRIPT_DIR/bin/docker-start-control-center.sh $MAX_BROKERS'
 
 alias kafka-cli='docker run --net=$NETWORK_NAME --rm --name shell -ti confluentinc/cp-kafka /bin/bash'
+
+alias kafka-purge-all='for CONTAINER_ID in $(docker ps | awk '\''/confluentinc.*Up/ { print $1 }'\'') ; do docker stop $CONTAINER_ID && docker rm $CONTAINER_ID ; done && for CONTAINER_ID in $(docker ps -a | awk '\''/confluentinc.*Exited/ { print $1 }'\''); do docker rm $CONTAINER_ID ; done'
