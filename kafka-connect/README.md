@@ -1,2 +1,2 @@
  - place driver jar files for kafka-connect in this directory
-
+ - download the JdbcSourceConnector connector plugin from https://www.confluent.io/connector/kafka-connect-jdbc/#download 
