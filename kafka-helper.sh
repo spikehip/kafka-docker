@@ -11,7 +11,7 @@ alias kafka-brokers-start='$SCRIPT_DIR/bin/docker-check-network.sh && for (( i=$
 alias kafka-brokers-stop='$SCRIPT_DIR/bin/docker-check-network.sh && for (( i=$MAX_BROKERS ; $i ; i=(($i - 1)) )) ; do $SCRIPT_DIR/bin/docker-check-process.sh kafka-$i stop ; done'
 alias kafka-brokers-restart='kafka-brokers-stop && kafka-brokers-start'
 
-alias kafka-control-center-start='$SCRIPT_DIR/bin/docker-check-network.sh && ( $SCRIPT_DIR/bin/docker-check-process.sh schema-registry start && $SCRIPT_DIR/bin/docker-check-process.sh kafka-rest start && $SCRIPT_DIR/bin/docker-check-process.sh control-center start ) || $SCRIPT_DIR/bin/docker-start-control-center.sh $MAX_BROKERS'
+alias kafka-control-center-start='$SCRIPT_DIR/bin/docker-check-network.sh && ( $SCRIPT_DIR/bin/docker-check-process.sh schema-registry start && $SCRIPT_DIR/bin/docker-check-process.sh kafka-rest start && $SCRIPT_DIR/bin/docker-check-process.sh kafka-connect start && $SCRIPT_DIR/bin/docker-check-process.sh control-center start ) || $SCRIPT_DIR/bin/docker-start-control-center.sh $MAX_BROKERS'
 
 alias kafka-cli='docker run --net=$NETWORK_NAME --rm --name shell -ti confluentinc/cp-kafka /bin/bash'
 

@@ -20,6 +20,26 @@ docker run -d \
   -e KAFKA_REST_HOST_NAME=kafka-rest \
   confluentinc/cp-kafka-rest
 
+docker run -d \
+  --net=$NETWORK_NAME \
+  --name=kafka-connect \
+  -e CONNECT_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS \
+  -e CONNECT_REST_PORT=8083 \
+  -e CONNECT_GROUP_ID="connect" \
+  -e CONNECT_CONFIG_STORAGE_TOPIC="connect-avro-config" \
+  -e CONNECT_OFFSET_STORAGE_TOPIC="connect-avro-offsets" \
+  -e CONNECT_STATUS_STORAGE_TOPIC="connect-avro-status" \
+  -e CONNECT_KEY_CONVERTER="io.confluent.connect.avro.AvroConverter" \
+  -e CONNECT_VALUE_CONVERTER="io.confluent.connect.avro.AvroConverter" \
+  -e CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL="http://schema-registry:8081" \
+  -e CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL="http://schema-registry:8081" \
+  -e CONNECT_INTERNAL_KEY_CONVERTER="org.apache.kafka.connect.json.JsonConverter" \
+  -e CONNECT_INTERNAL_VALUE_CONVERTER="org.apache.kafka.connect.json.JsonConverter" \
+  -e CONNECT_REST_ADVERTISED_HOST_NAME="kafka-connect" \
+  -e CONNECT_LOG4J_ROOT_LOGLEVEL=DEBUG \
+  -v $(pwd)/kafka-connect:/etc/kafka-connect/jars \
+  confluentinc/cp-kafka-connect:latest
+
 docker run -d  \
   --name=control-center \
   --net=$NETWORK_NAME \
